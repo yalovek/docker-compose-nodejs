@@ -1,0 +1,44 @@
+version: "2"
+services:
+  proxy:
+    restart: always
+    build: ./proxy
+    ports:
+      - 80:80
+      - 443:443
+    links:
+      - app:app
+      - data:data
+
+  app:
+    build: ./app
+    ports:
+      - 3000:3000
+    environment:
+      DATA_URL: http://localhost/data
+
+  data:
+    build: ./data
+    ports:
+      - 3001:3001
+    depends_on:
+      - data_db
+    environment:
+      MONGODB_URL: mongodb://mongodb_data/data
+
+  data_db:
+    image: mongo
+    container_name: mongodb_data
+
+  auth:
+    build: ./auth
+    ports:
+      - 3002:3002
+    depends_on:
+      - auth_db
+    environment:
+      MONGODB_URL: mongodb://mongodb_user/user
+
+  auth_db:
+    image: mongo
+    container_name: mongodb_user

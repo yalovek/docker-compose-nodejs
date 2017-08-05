@@ -1,0 +1,17 @@
+# OS X
+.DS_Store
+
+# Git
+.gitignore
+
+# Node
+
+## Dependency directories
+node_modules
+
+## Logs
+npm-debug.log
+
+# Dev files
+README.md
+yarn.lock
